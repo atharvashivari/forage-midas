@@ -1,2 +1,31 @@
+spring:
+  # Database Configuration (Required for JPA)
+  datasource:
+    url: jdbc:h2:mem:midas;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  # Kafka Configuration (JSON Handling)
+  kafka:
+    consumer:
+      group-id: midas-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 general:
   kafka-topic: trader-updates
